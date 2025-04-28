@@ -1,3 +1,14 @@
+# Levantar BD en contenedor:
+```shell script
+docker run -d \
+--name voice-ide-db \
+-e POSTGRES_USER=voice_user \
+-e POSTGRES_PASSWORD=voice_pass \
+-e POSTGRES_DB=voice_ide_db \
+-p 5432:5432 \
+postgres:14
+```
+
 # vox_code
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
