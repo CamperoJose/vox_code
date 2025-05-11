@@ -1,3 +1,10 @@
 GET http://localhost:8080/group/list
 ###
 GET http://localhost:8080/function/list
+###
+GET http://localhost:8080/function/params
+Content-Type: application/json
+
+{
+    "key":"#TERMINAL_COMMAND"
+}
