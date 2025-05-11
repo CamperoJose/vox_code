@@ -8,3 +8,5 @@ public class MyEntity extends PanacheEntity {
     public String field;
 }
 
+
+
