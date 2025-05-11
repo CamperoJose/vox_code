@@ -14,5 +14,5 @@ POST http://localhost:8080/chat
 Content-Type: application/json
 
 {
-  "message":"comando mac para ver ruta en mi terminal, solo el valor y nada mas"
+  "message":"insertar codigo de metodo para verificar si un numero es primo en python en la linea 5"
 }
