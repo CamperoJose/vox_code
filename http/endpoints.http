@@ -134,5 +134,5 @@ POST http://localhost:8080/chat
 Content-Type: application/json
 
 {
-  "message":"debes insertar codigo de una funcion en python en la fila 5"
+  "message":"debes insertar codigo de una funcion para ver que en la fila 5"
 }

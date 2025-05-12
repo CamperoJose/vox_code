@@ -16,6 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ChatService {
@@ -42,6 +43,17 @@ public class ChatService {
         List<GroupListDTO> groups      = groupService.listGroups();
         List<FunctionListDTO> functions = functionService.listFunctions();
 
+// 2) Simplified list for logging / lookup
+        List<Map<String,String>> simpleFuncs = functions.stream()
+                .map(f -> Map.<String,String>of(
+                        "key",         f.getKey(),
+                        "groupKey",    f.getGroupKey(),
+                        "description", f.getDescription()
+                ))
+                .collect(Collectors.toList());
+
+        LOGGER.infof("Simple functions list: %s", simpleFuncs);
+
         // 2) First call: match only
         StringBuilder matchPrompt = new StringBuilder()
                 .append("You are an assistant for an accessible IDE. ")
@@ -49,11 +61,9 @@ public class ChatService {
                 .append("(except code/commands or if the user explicitly requests English). ")
                 .append("The transcription may contain errors; interpret intent correctly.\n\n")
                 .append("Receive the following user message (in Spanish) and respond ONLY with one of the function keys ")
-                .append("from the list or '#NONE' if no match:\n\nFunctions: ");
-        for (int i = 0; i < functions.size(); i++) {
-            matchPrompt.append(functions.get(i).getKey());
-            if (i < functions.size() - 1) matchPrompt.append(", ");
-        }
+                .append("from the list or '#NONE' if no match:\n\nFunctions available: ")
+                .append(simpleFuncs).append("\n");
+
         matchPrompt.append("\n\nUser message: \"").append(message).append("\"");
 
         HttpRequest matchRequest = HttpRequest.newBuilder()
@@ -62,7 +72,7 @@ public class ChatService {
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(
                         Json.createObjectBuilder()
-                                .add("model", "gpt-4")
+                                .add("model", "gpt-3.5-turbo")
                                 .add("messages", Json.createArrayBuilder()
                                         .add(Json.createObjectBuilder()
                                                 .add("role", "system")
@@ -149,7 +159,7 @@ public class ChatService {
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(
                         Json.createObjectBuilder()
-                                .add("model", "gpt-4")
+                                .add("model", "gpt-4-turbo")
                                 .add("messages", Json.createArrayBuilder()
                                         .add(Json.createObjectBuilder()
                                                 .add("role", "system")
