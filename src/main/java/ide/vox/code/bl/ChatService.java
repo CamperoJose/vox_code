@@ -1,15 +1,10 @@
 package ide.vox.code.bl;
 
+import ide.vox.code.dto.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
-import ide.vox.code.dto.ChatResponseDTO;
-import ide.vox.code.dto.OutParamDTO;
-import ide.vox.code.dto.ParamResponseDTO;
-import ide.vox.code.dto.FunctionParamsDTO;
-import ide.vox.code.dto.GroupListDTO;
-import ide.vox.code.dto.FunctionListDTO;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -104,17 +99,30 @@ public class ChatService {
                 .findFirst().orElse(null);
 
         // 3) Load parameter definitions
+// 3) Load parameter definitions
         FunctionParamsDTO fp = functionService.getFunctionParams(functionKey);
-        List<ParamResponseDTO> respDefs   = fp.getResponseParams();
-        List<String> inputKeys = fp.getRequestParams().stream()
-                .map(r -> r.getKey())
+
+// Listado de entradas con descripción
+        List<ParamRequestDTO> inDefs = fp.getRequestParams();
+        List<String> inputDefs = inDefs.stream()
+                .map(r -> String.format("%s: %s", r.getKey(), r.getDescription()))
                 .toList();
+
+// Listado de salidas con descripción
+        List<ParamResponseDTO> outDefs = fp.getResponseParams();
+        List<String> outputDefs = outDefs.stream()
+                .map(r -> String.format("%s: %s", r.getKey(), r.getDescription()))
+                .toList();
+
+// debug print
+        LOGGER.info("Input parameters (key: description): " + inputDefs);
+        LOGGER.info("Output parameters (key: description): " + outputDefs);
 
         // 4) Second call: build detail prompt
         StringBuilder detailPrompt = new StringBuilder()
                 .append("You are an assistant for an accessible IDE.\n")
                 .append("Identified function: ").append(functionKey).append("\n")
-                .append("Required input and output parameters: ").append(fp).append("\n")
+                .append("Required inputs parameters (all are mandatory): ").append(inputDefs).append("\n")
                 .append("Original user message (Spanish and voice recorded): \"").append(message).append("\"\n\n")
                 .append("Respond with a VALID JSON only, no extra text, containing:\n")
                 .append("  match: true,\n")
@@ -124,18 +132,16 @@ public class ChatService {
                 .append("  outParams: [{paramKey:string,value:string},...],\n")
                 .append("  summary: string (in Spanish, natural greeting)\n\n")
                 .append("IMPORTANT:\n")
-                .append("- If input parameters are missing, allParams=false and summary must state in Spanish which inputs are missing, without keys.\n")
-                .append("- If all inputs present in the user message, allParams=true.\n")
+                .append("- First step is to verify if al input params are included or mention in the user message. If not, you cannot continue and you have to give allParams: false, no outPparams and in the summary message indicate wich params are missing and retry\n")
+                .append("- Only if If all inputs present in the user message, allParams=true and continue.\n")
                 .append("- outParams MUST include EXACTLY all defined output parameters, no more, no less.\n")
+                .append("Required output parameters (all are mandatory and no structure changable): ").append(outputDefs).append("\n")
 //                .append("- Just in these paramKeyOut values (if are present in re output parameters list) generate new code :\n")
 //                .append("    • #COMMAND for IA identified terminal commands\n")
 //                .append("    • #GENERATED_CODE for IA generated code\n\n")
 //                .append("    • #GENERATED_CODE for IA generated code\n\n")
-                .append("Also for out params consider that not exclaclty the message recieved has to be put on due to the message is voice recorded in Spanish so some thing could be miss [samples: the user says ache te te pe but it could mean http. Be ele ele could mean Bl. hola mundo punto yava could mean HolaMundo.java and so on. And some thimes there could be more text than needes for the params (ommit)]\n\n")
-                .append("Defined output parameters:\n");
-        for (ParamResponseDTO pr : respDefs) {
-            detailPrompt.append("- ").append(pr.getKey()).append("\n");
-        }
+                .append("Also for out params consider that not exclaclty the message recieved has to be put on due to the message is voice recorded in Spanish so some thing could be miss [samples: the user says ache te te pe but it could mean http. Be ele ele could mean Bl. hola mundo punto yava could mean HolaMundo.java and so on. And some thimes there could be more text than needes for the params (ommit)]\n\n");
+
 
         HttpRequest detailRequest = HttpRequest.newBuilder()
                 .uri(URI.create(apiUrl))
@@ -155,7 +161,7 @@ public class ChatService {
                 .build();
 
         HttpResponse<String> detailResp = httpClient.send(detailRequest, HttpResponse.BodyHandlers.ofString());
-        LOGGER.debugf("Detail response: %s", detailResp.body());
+        LOGGER.infof("Detail response: %s", detailResp.body());
 
         String detailContent;
         try (JsonReader jr = Json.createReader(new StringReader(detailResp.body()))) {

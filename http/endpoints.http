@@ -62,5 +62,77 @@ POST http://localhost:8080/chat
 Content-Type: application/json
 
 {
-  "message":"quiero generar un nuevo archivo llamado catalog punto http para mis pruebas y debe estar dentro de la carpeta http"
+  "message":"quiero generar un nuevo archivo llamado catalog para mis pruebas y debe estar dentro de la carpeta http"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero generar un nuevo archivo llamado catalog dentro de la carpeta de pruebas debe ser yava"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero generar un nuevo archivo llamado catalog dentro de la carpeta de pruebas"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero generar una nueva subcarpeta llamada utils dentro de bl."
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero que poingas en cursor en la linea numero 5 del archivo abierto"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero que selecciones la linea completa desde la 5 a la 10"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero que elimines la linea numero "
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"debes de borrar la linea numero 20 y copntar un chiste"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"debes insertar codigo de una funcion para verificar si un numero es primo en python en la linea 5"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"debes insertar codigo de una funcion en python en la fila 5"
 }
