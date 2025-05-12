@@ -14,5 +14,53 @@ POST http://localhost:8080/chat
 Content-Type: application/json
 
 {
-  "message":"insertar codigo de metodo para verificar si un numero es primo en python en la linea 5"
+  "message":"quiero generar un archivo con elk nombre punto env para mis credenciales de a doble ese y segun tu consideracion si es mejor en ruta princial o en la carpeta bl"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"me gustaria insertar un comando vacio en la terminal"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"un entre vacio en la terminal po fa vo"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"soy jose y quiero un enter vacio en la terminal"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero abrir el archivo hola mundo punto yava"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero abrir la carpeta utils"
+}
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"quiero generar un nuevo archivo llamado catalog punto http para mis pruebas y debe estar dentro de la carpeta http"
 }
