@@ -136,3 +136,11 @@ Content-Type: application/json
 {
   "message":"debes insertar codigo de una funcion para ver que en la fila 5"
 }
+
+###
+POST http://localhost:8080/chat
+Content-Type: application/json
+
+{
+  "message":"cuentame un chiste sobre pizzas"
+}
