@@ -1,5 +1,7 @@
 # VOX Code Backend
 
+![VoxCode (1)](https://github.com/user-attachments/assets/51be6290-5d50-48bd-8a91-c89fd2208616)
+
 A voice-controlled IDE backend service built with Quarkus that processes natural language commands and converts them into executable IDE actions. This backend is part of the VOX Code IDE project, designed to help programmers with motor disabilities through voice recognition and AI-powered command processing.
 
 ## 🚀 Quick Start
@@ -84,9 +86,14 @@ java -jar target/quarkus-app/quarkus-run.jar
 
 The application will be available at `http://localhost:8080`
 
+## 🔗 Frontend Integration
+
+This backend is designed to work with the VOX Code IDE frontend. The frontend repository can be found at:
+[https://github.com/CamperoJose/vox_code_ide](https://github.com/CamperoJose/vox_code_ide)
+
 ## 📚 API Documentation
 
-### Core Endpoints
+### Sample Endpoints
 
 #### Chat Processing
 **POST** `/chat`
@@ -269,21 +276,7 @@ openai.api.url=${OPENAI_API_URL:https://api.openai.com/v1/chat/completions}
 quarkus.http.port=8080
 ```
 
-### Environment Variables
-
-The application supports the following environment variables:
-
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `OPENAI_API_KEY` | Your OpenAI API key for AI functionality | - | Yes |
-| `OPENAI_API_URL` | OpenAI API endpoint URL | `https://api.openai.com/v1/chat/completions` | No |
-| `DB_USERNAME` | Database username | `voice_user` | No |
-| `DB_PASSWORD` | Database password | `voice_pass` | No |
-| `DB_NAME` | Database name | `voice_ide_db` | No |
-| `DB_HOST` | Database host | `localhost` | No |
-| `DB_PORT` | Database port | `5432` | No |
-
-## 🧪 Testing
+## Testing
 
 Test the API endpoints using the provided `http/endpoints.http` file:
 
@@ -308,15 +301,6 @@ Content-Type: application/json
   "message":"quiero generar un archivo con el nombre .env"
 }
 ```
-
-## 🔗 Frontend Integration
-
-This backend is designed to work with the VOX Code IDE frontend. The frontend repository can be found at:
-[https://github.com/CamperoJose/vox_code_ide](https://github.com/CamperoJose/vox_code_ide)
-
-## 📝 License
-
-This project is part of a final year Systems Engineering degree project at UCB (Universidad Católica Boliviana).
 
 ---
 
