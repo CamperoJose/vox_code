@@ -78,7 +78,7 @@ POST http://localhost:8080/chat
 Content-Type: application/json
 
 {
-  "message":"quiero generar un nuevo archivo llamado catalog dentro de la carpeta de pruebas"
+  "message":"quiero generar un nuevo archivo python llamado catalog dentro de la carpeta de pruebas"
 }
 
 ###
@@ -110,7 +110,7 @@ POST http://localhost:8080/chat
 Content-Type: application/json
 
 {
-  "message":"quiero que elimines la linea numero "
+  "message":"quiero que elimines la linea numero 10 del archivo actualmente abierto"
 }
 
 ###
@@ -134,7 +134,7 @@ POST http://localhost:8080/chat
 Content-Type: application/json
 
 {
-  "message":"debes insertar codigo de una funcion para ver que en la fila 5"
+  "message":"debes insertar codigo de una funcion para ver si un numero es primo en python en linea 5"
 }
 
 ###
@@ -142,5 +142,5 @@ POST http://localhost:8080/chat
 Content-Type: application/json
 
 {
-  "message":"cuentame un chiste sobre pizzas"
+  "message":"debes insertar codigo de una funcion para "
 }
